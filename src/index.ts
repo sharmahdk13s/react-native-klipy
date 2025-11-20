@@ -4,13 +4,20 @@ import {
   NativeModules,
 } from "react-native";
 import NativeKlipy, { KlipyReaction, KlipyInitOptions } from "./NativeKlipy";
+import MediaSelectorView from "./MediaSelectorView";
+import MediaSelectorBottomSheet from "./MediaSelectorBottomSheet";
 
 // Native RCTEventEmitter module responsible for emitting reaction events.
 const { KlipyEvents } = NativeModules as any;
 
 const emitter = new NativeEventEmitter(KlipyEvents);
 
-export { KlipyReaction, KlipyInitOptions };
+export {
+  KlipyReaction,
+  KlipyInitOptions,
+  MediaSelectorView,
+  MediaSelectorBottomSheet,
+};
 
 export function initialize(apiKey: string, options?: KlipyInitOptions): void {
   NativeKlipy.initialize(apiKey, options);

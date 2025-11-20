@@ -12,13 +12,6 @@ Free, high‑quality **GIFs, Clips and Stickers** for React Native apps, powered
 
 ---
 
-## Links
-
-- **npm**: [react-native-klipy on npm](https://www.npmjs.com/package/react-native-klipy)
-- **GitHub**: [react-native-klipy on GitHub](https://github.com/sharmahdk13s/react-native-klipy)
-
----
-
 ## Requirements
 
 - **React Native**: `>= 0.76.0`

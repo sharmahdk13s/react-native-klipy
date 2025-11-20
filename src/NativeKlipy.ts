@@ -1,5 +1,4 @@
-import { TurboModuleRegistry } from "react-native";
-import type { TurboModule } from "react-native";
+import { NativeModules } from "react-native";
 
 export type KlipyReactionType = "emoji" | "gif" | "clip" | "sticker";
 
@@ -16,7 +15,7 @@ export type KlipyInitOptions = {
   theme?: "light" | "dark" | "system";
 };
 
-export interface Spec extends TurboModule {
+export interface Spec {
   initialize(apiKey: string, options?: KlipyInitOptions): void;
   open(): void;
   setMediaPickerVisible(visible: boolean): void;
@@ -24,6 +23,6 @@ export interface Spec extends TurboModule {
   removeListeners(count: number): void;
 }
 
-const Klipy = TurboModuleRegistry.getEnforcing<Spec>("NativeKlipy");
+const { NativeKlipy } = NativeModules;
 
-export default Klipy;
+export default NativeKlipy as Spec;

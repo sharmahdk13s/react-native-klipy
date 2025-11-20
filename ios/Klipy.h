@@ -1,6 +1,6 @@
-// NOTE: This header imports the generated TurboModule spec for Klipy.
-// It is produced by React Native Codegen from src/NativeKlipy.ts.
-#import <NativeKlipySpec/NativeKlipySpec.h>
+// Classic React Native bridge module interface for Klipy.
+// This avoids requiring the generated TurboModule header (NativeKlipySpec).
+#import <React/RCTBridgeModule.h>
 
-@interface Klipy : NativeKlipySpecBase<NativeKlipySpec>
+@interface Klipy : NSObject<RCTBridgeModule>
 @end

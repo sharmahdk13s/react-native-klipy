@@ -16,44 +16,19 @@ static NSString *klipyApiKey = nil;
 
 @implementation Klipy
 
-- (NSArray<NSString *> *)supportedEvents
-{
-  return @[ @"onReactionSelected" ];
-}
+// Classic React Native bridge module registration. The exported name must
+// match the key used from JS (NativeModules.NativeKlipy).
+RCT_EXPORT_MODULE(NativeKlipy);
 
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
-{
-  return std::make_shared<facebook::react::NativeKlipySpecJSI>(params);
-}
-
-// TurboModule registration: the name must match the JS spec / TurboModuleRegistry key.
-+ (NSString *)moduleName
-{
-  return @"NativeKlipy";
-}
-
-// Required by the Spec / NativeEventEmitter. These are kept as no-op
-// methods because event subscription is handled on the JS side and
-// events are emitted from native using the separate KlipyEvents emitter.
-- (void)addListener:(NSString *)eventName
-{
-  // No-op
-}
-
-- (void)removeListeners:(double)count
-{
-  // No-op
-}
-
-// Synchronous initialize method as declared in NativeKlipySpec (no Promise blocks).
-- (void)initialize:(NSString *)apiKey options:(NSDictionary *)options
+// Synchronous initialize method (no Promise blocks expected from JS).
+RCT_EXPORT_METHOD(initialize:(NSString *)apiKey options:(NSDictionary *)options)
 {
   klipyApiKey = apiKey;
-  // TODO: Use apiKey to configure your Klipy networking base URL similar to the demo app.
+  // TODO: Use apiKey and options to configure Klipy as needed.
 }
 
-// Synchronous open method as declared in NativeKlipySpec (no Promise blocks).
-- (void)open
+// Open the media picker hosted by KlipyMediaPickerHost.
+RCT_EXPORT_METHOD(open)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIViewController *rootViewController = RCTPresentedViewController();
@@ -64,7 +39,9 @@ static NSString *klipyApiKey = nil;
   });
 }
 
-- (void)setMediaPickerVisible:(BOOL)visible
+// Expose a setter for media picker visibility so JS can control bottom sheet
+// style behaviour similarly to Android.
+RCT_EXPORT_METHOD(setMediaPickerVisible:(BOOL)visible)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"KlipyMediaPickerVisibilityChanged"

@@ -1,31 +1,10 @@
 {
   "name": "react-native-klipy",
-  "version": "0.1.2",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sharmahdk13s/react-native-klipy.git"
-  },
-  "homepage": "https://github.com/sharmahdk13s/react-native-klipy#readme",
-  "bugs": {
-    "url": "https://github.com/sharmahdk13s/react-native-klipy/issues"
-  },
+  "version": "0.1.3",
   "main": "src/index.ts",
   "module": "src/index.ts",
   "types": "src/index.ts",
   "react-native": "src/index.ts",
-  "codegenConfig": {
-    "name": "NativeKlipySpec",
-    "type": "modules",
-    "jsSrcsDir": "src",
-    "android": {
-      "javaPackageName": "com.klipy"
-    },
-    "ios": {
-      "modulesProvider": {
-        "NativeKlipy": "Klipy"
-      }
-    }
-  },
   "scripts": {
     "build": "echo 'run your build (e.g. bob build)'",
     "codegen": "react-native-codegen"
