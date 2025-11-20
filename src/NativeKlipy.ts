@@ -1,4 +1,4 @@
-import { NativeModules } from "react-native";
+import { NativeModules, TurboModuleRegistry } from "react-native";
 
 export type KlipyReactionType = "emoji" | "gif" | "clip" | "sticker";
 
@@ -22,7 +22,9 @@ export interface Spec {
   addListener(eventName: "onReactionSelected"): void;
   removeListeners(count: number): void;
 }
+const turboModule = TurboModuleRegistry.get<Spec>("NativeKlipy");
 
-const { NativeKlipy } = NativeModules;
+const NativeKlipy: Spec =
+  turboModule != null ? turboModule : (NativeModules.NativeKlipy as Spec);
 
-export default NativeKlipy as Spec;
+export default NativeKlipy;
