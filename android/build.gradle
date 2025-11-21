@@ -67,7 +67,7 @@ repositories {
 dependencies {
     // React Native
     implementation 'com.facebook.react:react-native:+'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
 
     // Jetpack Compose
     implementation platform("androidx.compose:compose-bom:2025.01.01")
