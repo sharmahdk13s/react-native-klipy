@@ -85,6 +85,22 @@ The native module is implemented by:
 
 ## Quick start (JavaScript)
 
+First, wrap your app in `KlipyProvider` so the media picker UI can be rendered
+(required for Android):
+
+```tsx
+import React from "react";
+import { KlipyProvider } from "react-native-klipy";
+
+export function App() {
+  return (
+    <KlipyProvider>{/* Your existing app layout / navigation */}</KlipyProvider>
+  );
+}
+```
+
+Then use the Klipy API:
+
 ```ts
 import Klipy, {
   initialize,
