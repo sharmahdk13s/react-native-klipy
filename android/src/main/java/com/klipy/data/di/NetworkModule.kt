@@ -49,6 +49,6 @@ val networkModule = module {
 
     // Replace with your secret key
     single(named("secretKey")) {
-        "Y9qk261ZOzIZMj6Y8OYOMsDcK6we3rHfYOvgZX8rfAIHorqidaM5RjTD0gQfvdnY"
+        "vFIPtwjq9ed8pOMNnWBWKKHPhmRSiGriUJZF1dYWXNx8SP4LQYatCcUVNvaXscEs"
     }
 }
