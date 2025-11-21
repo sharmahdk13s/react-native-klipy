@@ -2,6 +2,9 @@
 
 Free, high‑quality **GIFs, Clips and Stickers** for React Native apps, powered by a **bridgeless TurboModule** and a native SwiftUI media picker on iOS.
 
+- **npm**: [react-native-klipy](https://www.npmjs.com/package/react-native-klipy)
+- **GitHub**: [sharmahdk13s/react-native-klipy](https://github.com/sharmahdk13s/react-native-klipy)
+
 `react-native-klipy` is designed for modern React Native (0.76+) with the **New Architecture** enabled. It provides:
 
 - A simple JS API for initializing Klipy and opening the media picker.
