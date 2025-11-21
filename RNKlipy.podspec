@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "RNKlipy"
-  s.version      = "0.1.1"
+  s.version      = "0.1.6"
   s.summary      = "React Native wrapper for Klipy"
   s.license      = "MIT"
   s.author       = { "Klipy" => "support@klipy.com" }
