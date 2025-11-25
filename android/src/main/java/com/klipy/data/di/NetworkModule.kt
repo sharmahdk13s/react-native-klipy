@@ -4,9 +4,9 @@ import com.google.gson.GsonBuilder
 import com.klipy.data.dto.MediaItemDto
 import com.klipy.data.dto.deserializer.MediaItemDtoDeserializer
 import com.klipy.data.infrastructure.interceptor.AdsQueryParametersInterceptor
+import com.klipy.data.infrastructure.interceptor.ApiKeyBaseUrlInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,9 +20,8 @@ val networkModule = module {
     }
 
     single {
-        val secretKey: String = get(named("secretKey"))
         Retrofit.Builder()
-            .baseUrl("https://api.klipy.com/api/v1/$secretKey/")
+            .baseUrl("https://api.klipy.com/api/v1/")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create(get()))
             .build()
@@ -36,6 +35,7 @@ val networkModule = module {
 
     single {
         OkHttpClient.Builder()
+            .addInterceptor(ApiKeyBaseUrlInterceptor())
             .addInterceptor(get<AdsQueryParametersInterceptor>())
             .addInterceptor(get<HttpLoggingInterceptor>())
             .readTimeout(30, TimeUnit.SECONDS)
@@ -45,10 +45,5 @@ val networkModule = module {
 
     single<AdsQueryParametersInterceptor> {
         AdsQueryParametersInterceptor(get(), get(), get())
-    }
-
-    // Replace with your secret key
-    single(named("secretKey")) {
-        "vFIPtwjq9ed8pOMNnWBWKKHPhmRSiGriUJZF1dYWXNx8SP4LQYatCcUVNvaXscEs"
     }
 }

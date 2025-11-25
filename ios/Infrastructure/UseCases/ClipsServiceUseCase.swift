@@ -6,11 +6,9 @@
 //
 
 public struct ClipsServiceUseCase {
-  private let client: RestApiProtocol
+  private var client: RestApiProtocol { RestApi.liveValue }
   
-  public init() {
-    self.client = RestApi.liveValue
-  }
+  public init() { }
   
   func fetchTrending(
     page: Int,

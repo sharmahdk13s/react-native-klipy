@@ -12,8 +12,6 @@
 
 @class KlipyMediaPickerHost;
 
-static NSString *klipyApiKey = nil;
-
 @implementation Klipy
 
 // Classic React Native bridge module registration. The exported name must
@@ -23,7 +21,7 @@ RCT_EXPORT_MODULE(NativeKlipy);
 // Synchronous initialize method (no Promise blocks expected from JS).
 RCT_EXPORT_METHOD(initialize:(NSString *)apiKey options:(NSDictionary *)options)
 {
-  klipyApiKey = apiKey;
+  [KlipySettings setApiKey:apiKey];
   // TODO: Use apiKey and options to configure Klipy as needed.
 }
 

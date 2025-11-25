@@ -9,11 +9,9 @@ import Foundation
 import Moya
 
 public struct GifServiceUseCase {
-  private let client: RestApiProtocol
+  private var client: RestApiProtocol { RestApi.liveValue }
   
-  public init() {
-    self.client = RestApi.liveValue
-  }
+  public init() { }
   
   func fetchTrending(page: Int, perPage: Int, customerId: String = CustomerIDManager.customerID, locale: String = "ka") async throws -> AnyResponse<GifItem> {
     try await client.request(

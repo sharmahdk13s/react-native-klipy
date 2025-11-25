@@ -3,7 +3,11 @@ import { Keyboard, KeyboardEvent, Platform } from "react-native";
 import MediaSelectorBottomSheet, {
   MediaSelectorVisibility,
 } from "./MediaSelectorBottomSheet";
-import { __setAndroidOpenHandler } from "./index";
+import {
+  __setAndroidOpenHandler,
+  addReactionListener,
+  type KlipyReaction,
+} from "./index";
 
 type Props = {
   children: React.ReactNode;
@@ -33,10 +37,23 @@ const KlipyProvider: React.FC<Props> = ({ children }) => {
       setKeyboardHeight(0);
     });
 
+    const reactionSub = addReactionListener((reaction: KlipyReaction) => {
+      if (
+        (reaction.type === "gif" ||
+          reaction.type === "clip" ||
+          reaction.type === "sticker") &&
+        reaction.value
+      ) {
+        // Auto-hide sheet when a media item is selected on Android
+        setVisibility("hidden");
+      }
+    });
+
     return () => {
       __setAndroidOpenHandler(null);
       showSub.remove();
       hideSub.remove();
+      reactionSub.remove();
     };
   }, []);
 

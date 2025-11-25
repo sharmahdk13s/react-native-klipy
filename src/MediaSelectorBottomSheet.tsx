@@ -43,37 +43,39 @@ const MediaSelectorBottomSheet: React.FC<MediaSelectorBottomSheetProps> = ({
     return null;
   }
 
-  const dragResponder = React.useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: (_evt, gestureState) => {
-        // Any small vertical movement on the handle should engage the drag
-        return Math.abs(gestureState.dy) > 2;
-      },
-      onPanResponderRelease: (_evt, gestureState) => {
-        if (!onVisibilityChange) {
-          return;
-        }
-        const { dy } = gestureState;
-        const threshold = 10;
-
-        // Drag up: try to expand to full from partial.
-        if (dy < -threshold && visibility === "partial") {
-          onVisibilityChange("full");
-          return;
-        }
-
-        // Drag down: collapse from full -> partial, or partial -> hidden.
-        if (dy > threshold) {
-          if (visibility === "full") {
-            onVisibilityChange("partial");
-          } else if (visibility === "partial") {
-            onVisibilityChange("hidden");
+  const dragResponder = React.useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: (_evt, gestureState) => {
+          // Any small vertical movement on the handle should engage the drag
+          return Math.abs(gestureState.dy) > 2;
+        },
+        onPanResponderRelease: (_evt, gestureState) => {
+          if (!onVisibilityChange) {
+            return;
           }
-        }
-      },
-    })
-  ).current;
+          const { dy } = gestureState;
+          const threshold = 10;
+
+          // Drag up: try to expand to full from partial.
+          if (dy < -threshold && visibility === "partial") {
+            onVisibilityChange("full");
+            return;
+          }
+
+          // Drag down: collapse from full -> partial, or partial -> hidden.
+          if (dy > threshold) {
+            if (visibility === "full") {
+              onVisibilityChange("partial");
+            } else if (visibility === "partial") {
+              onVisibilityChange("hidden");
+            }
+          }
+        },
+      }),
+    [visibility, onVisibilityChange]
+  );
 
   const isVisible = visibility !== "hidden";
 
@@ -81,12 +83,24 @@ const MediaSelectorBottomSheet: React.FC<MediaSelectorBottomSheetProps> = ({
     return null;
   }
 
-  const availableHeight = windowHeight - keyboardHeight - topInset;
+  const HEADER_MARGIN = 56; // Reserve space for host app header / search bar
+
   const baseHeight = keyboardHeight > 0 ? keyboardHeight : windowHeight * 0.35;
-  const fullHeight =
-    keyboardHeight > 0
-      ? availableHeight
-      : Math.max(windowHeight * 0.7, baseHeight);
+  let fullHeight: number;
+
+  if (keyboardHeight > 0) {
+    const maxFullHeight =
+      windowHeight - keyboardHeight - topInset - HEADER_MARGIN;
+
+    // Ensure the sheet grows larger than the partial state but never
+    // pushes its top content under the app's header area.
+    const minFullHeight = Math.max(baseHeight, windowHeight * 0.3);
+
+    fullHeight = Math.max(minFullHeight, Math.min(maxFullHeight, windowHeight));
+  } else {
+    fullHeight = Math.max(windowHeight * 0.7, baseHeight);
+  }
+
   const sheetHeight = visibility === "partial" ? baseHeight : fullHeight;
 
   const handleClose = () => {
@@ -112,7 +126,6 @@ const MediaSelectorBottomSheet: React.FC<MediaSelectorBottomSheetProps> = ({
     <View
       style={[
         styles.overlay,
-        { paddingTop: topInset },
         keyboardHeight > 0 ? { bottom: keyboardHeight } : null,
       ]}
       pointerEvents="box-none"
@@ -127,9 +140,8 @@ const MediaSelectorBottomSheet: React.FC<MediaSelectorBottomSheetProps> = ({
           style={styles.handleContainer}
           activeOpacity={0.8}
           onPress={handleToggleHeight}
-          {...dragResponder.panHandlers}
         >
-          <View style={styles.handle} />
+          <View style={styles.handle} {...dragResponder.panHandlers} />
         </TouchableOpacity>
         <MediaSelectorView style={styles.mediaSelector} />
       </View>
@@ -153,11 +165,10 @@ const styles = StyleSheet.create({
   sheetContainer: {
     width: "100%",
     backgroundColor: "#000",
-    marginTop: 12,
   },
   handleContainer: {
     alignItems: "center",
-    paddingVertical: 14,
+    paddingVertical: 6,
   },
   handle: {
     width: 40,

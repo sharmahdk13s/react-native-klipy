@@ -22,7 +22,7 @@ class KlipyModule(reactContext: ReactApplicationContext) : KlipyModuleBase(react
   @ReactMethod
   override fun initialize(apiKey: String, options: ReadableMap?) {
     Companion.apiKey = apiKey
-    // TODO: Use apiKey to configure your Klipy networking layer (base URL, etc.)
+    // TODO: Use apiKey and options to further configure Klipy as needed.
   }
 
   @ReactMethod
