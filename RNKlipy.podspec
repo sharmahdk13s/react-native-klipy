@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "RNKlipy"
-  s.version      = "0.2.0"
+  s.version      = "0.2.1"
   s.summary      = "React Native wrapper for Klipy"
   s.license      = "MIT"
   s.author       = { "Klipy" => "support@klipy.com" }
@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/**/*.h"
 
-  s.dependency "SDWebImage"
-  s.dependency "SDWebImageSwiftUI"
+s.dependency 'SDWebImage', '>= 5.11.1'
+  s.dependency 'SDWebImageSwiftUI', '>= 3.1.3'
   s.dependency "AlertToast"
   s.dependency "Alamofire"
   s.dependency "Moya"
