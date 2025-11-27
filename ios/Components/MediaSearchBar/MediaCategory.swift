@@ -25,4 +25,11 @@ struct MediaCategory: Identifiable, Equatable {
     self.iconUrl = "\(CATEGORY_FATCH_URL)\(name).png"
     self.type = type
   }
+  
+  // New initializer for API categories
+  init(categoryItem: Categories.CategoryItem) {
+    self.name = categoryItem.category
+    self.iconUrl = categoryItem.previewUrl
+    self.type = .none
+  }
 }

@@ -195,25 +195,34 @@ fun Toolbar(
                 contentDescription = "Clear Search"
             )
         }
-        if (isSearchFocused.not()) {
+       if (isSearchFocused.not()) {
             categories?.forEach { category ->
                 Spacer(modifier = Modifier.width(6.dp))
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(category.url)
-                        .build(),
-                    contentDescription = "Category",
+                val isSelected = category == chosenCategory
+                Box(
                     modifier = Modifier
-                        .size(iconSize)
+                        .size(iconSize + 8.dp)
+                        .background(
+                            color = if (isSelected) {
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                            } else {
+                                Color.Transparent
+                            },
+                            shape = RoundedCornerShape(6.dp)
+                        )
                         .clickable {
                             onCategoryClicked.invoke(category)
                         },
-                    colorFilter = if (category == chosenCategory) {
-                        ColorFilter.tint(MaterialTheme.colorScheme.primary)
-                    } else {
-                        ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                    }
-                )
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(category.url)
+                            .build(),
+                        contentDescription = "Category",
+                        modifier = Modifier.size(iconSize)
+                    )
+                }
             }
         }
     }

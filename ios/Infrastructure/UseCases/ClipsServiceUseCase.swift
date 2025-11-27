@@ -14,7 +14,7 @@ public struct ClipsServiceUseCase {
     page: Int,
     perPage: Int = 24,
     customerId: String = CustomerIDManager.customerID,
-    locale: String = "ka"
+    locale: String = "en"
   ) async throws -> AnyResponse<ClipItem> {
     try await client.request(
       ClipsService.trending(
@@ -31,7 +31,7 @@ public struct ClipsServiceUseCase {
     page: Int,
     perPage: Int = 24,
     customerId: String = CustomerIDManager.customerID,
-    locale: String = "ka"
+    locale: String = "en"
   ) async throws -> AnyResponse<ClipItem> {
     try await client.request(
       ClipsService.search(

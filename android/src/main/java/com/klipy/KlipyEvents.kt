@@ -64,6 +64,7 @@ class KlipyEvents(reactContext: ReactApplicationContext) :
       val high = item.highQualityMetaData?.url
       val low = item.lowQualityMetaData?.url
       return when {
+        item.mediaType == MediaType.CLIP && !low.isNullOrEmpty() -> low
         !high.isNullOrEmpty() -> high
         !low.isNullOrEmpty() -> low
         else -> ""

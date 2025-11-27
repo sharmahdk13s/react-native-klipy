@@ -124,7 +124,10 @@ enum MediaService {
     case .sticker(let service):
       return try await service.fetchCategories()
     case .none:
-      return .init(result: false, data: [])
+      return .init(
+        result: false,
+        data: .init(locale: "", categories: [])
+      )
     }
   }
   

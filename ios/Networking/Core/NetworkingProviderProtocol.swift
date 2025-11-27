@@ -159,6 +159,41 @@ public class NetworkingProvider<Target>: NetworkingProviderProtocol where Target
 
   private func handleSuccess<ResponseType: Decodable>(response: Response) throws -> ResponseType {
     let filteredResponse = try response.filterSuccessfulStatusCodes()
+    
+    // Debug logging for trending GIF responses
+    if String(describing: ResponseType.self).contains("AnyResponse") && String(describing: ResponseType.self).contains("GifItem") {
+      print("🔍 Raw Response Debug:")
+      if let responseString = String(data: filteredResponse.data, encoding: .utf8) {
+        print("Raw Response Data:")
+        print(responseString)
+        
+        // Parse and analyze the 5th element specifically
+        if let jsonData = responseString.data(using: .utf8) {
+          do {
+            if let json = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+               let data = json["data"] as? [Any] {
+              print("\n=== Analysis of Data Array ===")
+              print("Total items: \(data.count)")
+              
+              for (index, item) in data.enumerated() {
+                if let itemDict = item as? [String: Any] {
+                  let type = itemDict["type"] as? String ?? "unknown"
+                  print("Item \(index + 1): type = \(type)")
+                  
+                  if index == 4 { // 5th element (0-indexed)
+                    print("🚨 5th element details:")
+                    print(itemDict)
+                  }
+                }
+              }
+            }
+          } catch {
+            print("JSON parsing error in debug: \(error)")
+          }
+        }
+      }
+    }
+    
     return try filteredResponse.map(ResponseType.self, using: JSONDecoder.custom)
   }
 

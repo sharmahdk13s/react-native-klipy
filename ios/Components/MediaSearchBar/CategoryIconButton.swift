@@ -18,7 +18,6 @@ struct CategoryIconButton: View {
     Button(action: action) {
       WebImage(url: URL(string: category.iconUrl))
         .resizable()
-        .renderingMode(.template)
         .indicator(.activity)
         .transition(MediaSearchConfiguration.Animation.imageTransition)
         .scaledToFit()
@@ -26,15 +25,19 @@ struct CategoryIconButton: View {
           width: MediaSearchConfiguration.Layout.categoryIconSize,
           height: MediaSearchConfiguration.Layout.categoryIconSize
         )
-        .foregroundColor(
-          isSelected ?
-          MediaSearchConfiguration.Colors.selectedIcon :
-            MediaSearchConfiguration.Colors.icon
+        .padding(4)
+        .background(
+          RoundedRectangle(cornerRadius: 6)
+            .fill(
+              isSelected ?
+                MediaSearchConfiguration.Colors.selectedIcon.opacity(0.4) :
+                Color.clear
+            )
         )
     }
     .frame(
-      width: MediaSearchConfiguration.Layout.categoryIconSize,
-      height: MediaSearchConfiguration.Layout.categoryIconSize
+      width: MediaSearchConfiguration.Layout.categoryIconSize + 12,
+      height: MediaSearchConfiguration.Layout.categoryIconSize + 12
     )
   }
 }

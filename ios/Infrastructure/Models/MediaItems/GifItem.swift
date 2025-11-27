@@ -51,6 +51,31 @@ extension GifItem {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
+    // Debug logging for ad type items
+    if let typeString = try container.decodeIfPresent(String.self, forKey: .type),
+       typeString == "ad" {
+      print("🔍 Decoding AD item:")
+      
+      // Log all available keys for ad items
+      let allKeys = container.allKeys
+      print("Available keys: \(allKeys.map { $0.stringValue })")
+      
+      // Try to decode each field and log issues
+      for key in allKeys {
+        do {
+          let _ = try container.decodeIfPresent(String.self, forKey: key)
+          print("✅ Successfully decoded String for key: \(key.stringValue)")
+        } catch {
+          do {
+            let _ = try container.decodeIfPresent(Int.self, forKey: key)
+            print("✅ Successfully decoded Int for key: \(key.stringValue)")
+          } catch {
+            print("❌ Failed to decode key: \(key.stringValue) - \(error)")
+          }
+        }
+      }
+    }
+    
     if let content = try container.decodeIfPresent(String.self, forKey: .content) {
       let type = try container.decode(MediaType.self, forKey: .type)
       let width = try container.decodeIfPresent(Int.self, forKey: .width)

@@ -1,5 +1,5 @@
-import React from "react";
-import { Keyboard, KeyboardEvent, Platform } from "react-native";
+import React, { useEffect } from "react";
+import { BackHandler, Keyboard, KeyboardEvent, Platform } from "react-native";
 import MediaSelectorBottomSheet, {
   MediaSelectorVisibility,
 } from "./MediaSelectorBottomSheet";
@@ -49,13 +49,25 @@ const KlipyProvider: React.FC<Props> = ({ children }) => {
       }
     });
 
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        if (visibility !== "hidden") {
+          setVisibility("hidden");
+          return true; // Prevent default back behavior
+        }
+        return false; // Allow default back behavior
+      }
+    );
+
     return () => {
       __setAndroidOpenHandler(null);
       showSub.remove();
       hideSub.remove();
       reactionSub.remove();
+      backHandler.remove();
     };
-  }, []);
+  }, [visibility]);
 
   return (
     <>

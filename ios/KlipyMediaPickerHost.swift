@@ -29,6 +29,8 @@ final class KlipyMediaPickerViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
 
+UserAgentManager.shared.getUserAgent()
+
     if #available(iOS 17.0, *) {
       let mediaPickerView = StandaloneMediaPickerView(onDismiss: { [weak self] in
         self?.dismiss(animated: true)

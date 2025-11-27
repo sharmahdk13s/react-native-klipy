@@ -13,13 +13,13 @@ public struct GifServiceUseCase {
   
   public init() { }
   
-  func fetchTrending(page: Int, perPage: Int, customerId: String = CustomerIDManager.customerID, locale: String = "ka") async throws -> AnyResponse<GifItem> {
+  func fetchTrending(page: Int, perPage: Int, customerId: String = CustomerIDManager.customerID, locale: String = "en") async throws -> AnyResponse<GifItem> {
     try await client.request(
       GifService.trending(page: page, perPage: perPage, customerId: customerId, locale: locale)
     )
   }
   
-  func searchGifs(query: String, page: Int, perPage: Int, customerId: String = CustomerIDManager.customerID, locale: String = "ka") async throws -> AnyResponse<GifItem> {
+  func searchGifs(query: String, page: Int, perPage: Int, customerId: String = CustomerIDManager.customerID, locale: String = "en") async throws -> AnyResponse<GifItem> {
     try await client.request(
       GifService.search(query: query, page: page, perPage: perPage, customerId: customerId, locale: locale)
     )

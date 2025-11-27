@@ -377,8 +377,8 @@ extension DynamicMediaViewModel {
         MediaCategory(name: "recent", type: .recents)
       ]
       
-      let mappedCategories = predefinedCategories + categoriesResponse.data.map {
-        MediaCategory(name: $0)
+      let mappedCategories = predefinedCategories + categoriesResponse.data.categories.map {
+        MediaCategory(categoryItem: $0)
       }
 
       self.categories = mappedCategories

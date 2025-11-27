@@ -17,7 +17,7 @@ public struct StickersServiceUseCase {
     page: Int,
     perPage: Int = 24,
     customerId: String = CustomerIDManager.customerID,
-    locale: String = "ka"
+    locale: String = "en"
   ) async throws -> AnyResponse<StickerItem> {
     try await client.request(
       StickersService.trending(
@@ -34,7 +34,7 @@ public struct StickersServiceUseCase {
     page: Int,
     perPage: Int = 24,
     customerId: String = CustomerIDManager.customerID,
-    locale: String = "ka"
+    locale: String = "en"
   ) async throws -> AnyResponse<StickerItem> {
     try await client.request(
       StickersService.search(

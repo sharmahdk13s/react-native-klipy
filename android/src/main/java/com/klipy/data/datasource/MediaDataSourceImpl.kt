@@ -31,11 +31,20 @@ class MediaDataSourceImpl(
             apiCallHelper.makeApiCall {
                 mediaService.getCategories()
             }.mapCatching { result ->
-                val list = result.data?.toMutableList()
-                list?.addAll(0, listOf(RECENT, TRENDING))
-                val mappedList = list?.map {
-                    Category(title = it, url = it.toCategoryUrl())
-                } ?: emptyList()
+                val apiCategories = result.data?.categories.orEmpty()
+
+                val defaultCategories = listOf(
+                    Category(title = RECENT, url = RECENT.toCategoryUrl()),
+                    Category(title = TRENDING, url = TRENDING.toCategoryUrl())
+                )
+
+                val mappedApiCategories = apiCategories.mapNotNull { item ->
+                    val title = item.category ?: return@mapNotNull null
+                    val url = item.previewUrl ?: title.toCategoryUrl()
+                    Category(title = title, url = url)
+                }
+
+                val mappedList = defaultCategories + mappedApiCategories
                 categories = mappedList
                 mappedList
             }
