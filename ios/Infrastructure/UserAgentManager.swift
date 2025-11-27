@@ -11,7 +11,7 @@ import SwiftUI
 
 class UserAgentManager {
   static let shared = UserAgentManager()
-  var userAgent: String = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148)"
+  var userAgent: String = ""
   var WKwebView: WKWebView!
   
   func getUserAgent() {

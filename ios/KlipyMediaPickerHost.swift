@@ -5,6 +5,7 @@ import SwiftUI
   @objc public static let shared = KlipyMediaPickerHost()
 
   @objc public func open(_ rootViewController: UIViewController) {
+    UserAgentManager.shared.getUserAgent()
     // Close any active keyboard
     UIApplication.shared.sendAction(
       #selector(UIResponder.resignFirstResponder),
@@ -28,8 +29,6 @@ final class KlipyMediaPickerViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-
-UserAgentManager.shared.getUserAgent()
 
     if #available(iOS 17.0, *) {
       let mediaPickerView = StandaloneMediaPickerView(onDismiss: { [weak self] in
